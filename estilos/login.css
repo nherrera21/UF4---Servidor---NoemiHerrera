@@ -1,0 +1,27 @@
+
+
+body::after {
+    background-image: url("../imagenes/fondo.jpg");
+    content: "";
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;   
+  }
+
+.border-3 {
+    border-style:solid;
+    border-width:3px !important;
+    border-radius: 25px;
+}
+
+.login
+{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -1,0 +1,44 @@
+
+
+body {
+    background-color: #f8f9fa;
+}
+
+.border-3 {
+    border-style:solid;
+    border-width:3px !important;
+    border-radius: 25px;
+    display: flex;
+    width:100%;
+    height:100%;
+}
+
+.titulo {
+    height: 50px;
+    margin: 30px;
+}
+
+.usuario
+{
+    padding-right: 15px;
+    font-weight: bold;
+    color: darkred;
+}
+
+.cabecera
+{
+    width:100%;
+    height:30px;
+    border-bottom:  2px solid steelblue;
+    padding-right: 30px;
+    display: flex;
+    justify-content: right;
+}
+
+.login
+{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
