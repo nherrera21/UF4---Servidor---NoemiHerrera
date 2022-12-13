@@ -20,50 +20,51 @@ function comprobarActividad()
 
 function crearActividad($actividad)
 {
-    global $conexion_mysql;
+$endpoint = 'http://'.$_SERVER['HTTP_HOST'] . "/UF4_API/index.php";
+$json = json_encode($actividad);
 
-    $consulta  = "INSERT INTO actividades (Titulo, Ciudad, Fecha, Precio, Usuario, Tipo)  
-    VALUES (?, ?, ?, ?, ?, ?)";
+$curl = curl_init();
 
-    $stmt = $conexion_mysql->prepare($consulta);
-    $stmt->bind_param('sssdss', 
-    $actividad->titulo, 
-    $actividad->ciudad, 
-    $actividad->fecha,
-    $actividad->precio,
-    $actividad->usuario,
-    $actividad->tipo); 
-    
-    $stmt->execute();
+curl_setopt($curl, CURLOPT_URL, $endpoint);
+curl_setopt($curl, CURLOPT_POST, 1);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($curl, CURLOPT_POSTFIELDS, $json);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+
+$output = curl_exec($curl);
+
+curl_close($curl);
+
+if($output)
+       echo $output;
 }
 
 function listarActividades()
 {
-    global $conexion_mysql;
+$endpoint = 'http://' .$_SERVER['HTTP_HOST'] . "/UF4_API/index.php";
 
-    $actividades = array();
+$curl = curl_init();
 
-    $consulta  = "SELECT * FROM actividades";
+curl_setopt($curl, CURLOPT_URL, $endpoint);
 
-    $resultado = mysqli_query($conexion_mysql, $consulta);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-    if($resultado)
-    {
-        while($fila = mysqli_fetch_assoc($resultado))
-		{
-            $actividad = new Actividad($fila["Titulo"], 
-                                       $fila["Tipo"], 
-                                       $fila["Fecha"], 
-                                       $fila["Ciudad"], 
-                                       $fila["Precio"], 
-                                       $fila["Usuario"]);
-                                       
-            array_push($actividades, $actividad);
-		}
-    }
-	
-    return $actividades;
+$output = curl_exec($curl);
+
+curl_close($curl);
+
+$listado = json_decode($output, true);
+$actividades = array();
+
+foreach($listado as $fila)
+{
+        $actividad = new Actividad($fila["Titulo"], $fila["Tipo"], $fila["Fecha"], $fila["Ciudad"], $fila["Precio"], $fila["Usuario"]);
+        array_push($actividades, $actividad);
+
 }
 
+return $actividades;
 
+}
 ?>
